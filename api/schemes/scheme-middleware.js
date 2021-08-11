@@ -1,3 +1,4 @@
+const Schemes = require('./scheme-model')
 /*
   If `scheme_id` does not exist in the database:
 
@@ -7,7 +8,7 @@
   }
 */
 const checkSchemeId = (req, res, next) => {
-
+  next()
 }
 
 /*
@@ -19,7 +20,7 @@ const checkSchemeId = (req, res, next) => {
   }
 */
 const validateScheme = (req, res, next) => {
-
+  next()
 }
 
 /*
@@ -32,7 +33,7 @@ const validateScheme = (req, res, next) => {
   }
 */
 const validateStep = (req, res, next) => {
-
+  next()
 }
 
 module.exports = {
