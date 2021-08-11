@@ -29,10 +29,11 @@ async function findById(scheme_id) { // EXERCISE B
   const rows =  await db('schemes as sc')
                 .leftJoin('steps as st', 'sc.scheme_id', 'st.scheme_id')
                 .select('sc.scheme_name','st.scheme_id', 'st.step_id', 'st.step_number', 'st.instructions')
-                .where('st.scheme_id', scheme_id)
+                .where('sc.scheme_id', scheme_id)
                 .orderBy('st.step_number', 'asc')
 
-  const steps = rows.map((row) => {
+  console.log(scheme_id)
+  const steps = rows[0].step_id ? rows.map((row) => {
                           const step = {
                             step_id: row.step_id,
                             step_number: row.step_number,
@@ -40,9 +41,9 @@ async function findById(scheme_id) { // EXERCISE B
                           }
                           return step
                         })
-
+                        : []
   const result = {
-    scheme_id: rows[0].scheme_id,
+    scheme_id: `${scheme_id}`,
     scheme_name: rows[0].scheme_name,
     steps: steps
   }
@@ -144,18 +145,24 @@ function findSteps(scheme_id) { // EXERCISE C
         .orderBy('st.step_number', 'asc')
 }
 
-function add(scheme) { // EXERCISE D
+async function add(scheme) { // EXERCISE D
   /*
     1D- This function creates a new scheme and resolves to _the newly created scheme_.
   */
+const id = await db('schemes').insert(scheme)
+const whatWeWant = await findById(id[0])
+console.log(whatWeWant)
+return whatWeWant
 }
 
-function addStep(scheme_id, step) { // EXERCISE E
+async function addStep(scheme_id, step) { // EXERCISE E
   /*
     1E- This function adds a step to the scheme with the given `scheme_id`
     and resolves to _all the steps_ belonging to the given `scheme_id`,
     including the newly created one.
   */
+ await db('steps').insert(step)
+ return findSteps(scheme_id)
 }
 
 module.exports = {
