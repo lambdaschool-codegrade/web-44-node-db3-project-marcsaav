@@ -32,7 +32,6 @@ async function findById(scheme_id) { // EXERCISE B
                 .where('sc.scheme_id', scheme_id)
                 .orderBy('st.step_number', 'asc')
 
-  console.log(scheme_id)
   const steps = rows[0].step_id ? rows.map((row) => {
                           const step = {
                             step_id: row.step_id,
@@ -151,7 +150,6 @@ async function add(scheme) { // EXERCISE D
   */
 const id = await db('schemes').insert(scheme)
 const whatWeWant = await findById(id[0])
-console.log(whatWeWant)
 return whatWeWant
 }
 
